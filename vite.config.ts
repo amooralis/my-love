@@ -10,7 +10,7 @@ export default defineConfig({
       },
     }),
   ],
-  base: "/my-love/", // Замените на ТОЧНОЕ название вашего GitHub репозитория
+  base: "/my-love/", // название GitHub репозитория
   build: {
     outDir: "dist",
     assetsDir: "assets",
