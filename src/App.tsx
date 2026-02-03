@@ -2,18 +2,18 @@ import { useState, useRef } from "react";
 import "./App.css";
 
 const predefinedPositions = [
-  { x: 25, y: 30 },
-  { x: 60, y: 20 },
-  { x: 15, y: 65 },
-  { x: 65, y: 70 },
-  { x: 40, y: 15 },
-  { x: 70, y: 45 },
-  { x: 25, y: 45 },
-  { x: 45, y: 75 },
-  { x: 30, y: 10 },
-  { x: 55, y: 55 },
-  { x: 35, y: 60 },
-  { x: 60, y: 30 },
+  { x: 0, y: 25 }, // верх слева
+  { x: 65, y: 20 }, // верх справа
+  { x: 20, y: 55 }, // низ слева
+  { x: 65, y: 34 }, // низ справа
+  { x: 25, y: 0 }, // верх слева центр
+  { x: 60, y: 70 }, // верх справа центр
+  { x: 5, y: 55 }, // центр слева
+  { x: 2, y: 50 }, // центр справа
+  { x: 65, y: 23 }, // низ слева центр
+  { x: 40, y: 5 }, // низ справа центр
+  { x: 30, y: 70 }, // самый низ слева
+  { x: 65, y: 10 }, // самый верх справа
 ];
 
 function App() {
@@ -30,11 +30,21 @@ function App() {
   };
 
   const handleNo = () => {
-    setAnsweredNo(true);
+    // На мобильных устройствах просто двигаем кнопку вместо показа сообщения
+    if (window.innerWidth <= 768) {
+      handleNoHover();
+    } else {
+      setAnsweredNo(true);
+    }
   };
 
   const handleBack = () => {
     setIsBackClicked(true);
+  };
+
+  const handleBackReal = () => {
+    setAnsweredYes(false);
+    setAnsweredNo(false);
   };
 
   const handleNoHover = () => {
@@ -56,7 +66,7 @@ function App() {
         <div className="success-message">
           <h1>😡 ТЫ БАЛУЕШЬСЯ 😡</h1>
           <div className="celebration">👊🏻👊🏻👊🏻👊🏻</div>
-          <button className="back-button" onClick={handleBack}>
+          <button className="back-button" onClick={handleBackReal}>
             ⬅︎ Поменять решение
           </button>
         </div>
@@ -79,12 +89,13 @@ function App() {
           <p className="success-message-text">Правильный выбор! 💕</p>
           <div className="celebration">🎉💝🎉💝🎉</div>
           {!isBackClicked && (
-          <button
-            className={`back-button isBackClicked`}
-            onClick={handleBack}
-          >
-            ⬅︎ Поменять решение (как бы нихуя себе)
-          </button>)}
+            <button
+              className={`back-button isBackClicked`}
+              onClick={handleBack}
+            >
+              ⬅︎ Поменять решение (как бы нихуя себе)
+            </button>
+          )}
           {isBackClicked && <p className="error">Не, ну ты норм?</p>}
         </div>
       </div>
@@ -113,6 +124,7 @@ function App() {
             className="no-button-zone"
             onMouseEnter={handleNoHover}
             onMouseOver={handleNoHover}
+            onTouchStart={handleNoHover}
             style={{
               position: "absolute",
               left: `${noPosition.x}%`,
